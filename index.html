@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Team Generator</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7354904152560337"
+     crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center the main content */
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .ad-container {
+            width: 160px; /* Adjust width as needed */
+            margin: 20px;
+        }
+
+        .left-ad {
+            order: -1; /* Place on the left */
+        }
+
+        .right-ad {
+            order: 1; /* Place on the right */
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            margin: 20px; /* Add margin around the main container */
+        }
+
+        @media (min-width: 960px) { /* Adjust breakpoint as needed */
+            body {
+                justify-content: space-around; /* Distribute space for ads */
+            }
+
+            .container {
+                width: auto;
+                max-width: 800px;
+                margin: 20px 0; /* Adjust vertical margin */
+            }
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+            border: 1px solid #dcdcdc;
+        }
+
+        #results h3 {
+            color: #27ae60;
+            margin-top: 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .team {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .team h4 {
+            color: #34495e;
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+
+        .team p {
+            margin-bottom: 8px;
+            color: #555;
+            white-space: pre-line;
+        }
+
+        .team strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="ad-container left-ad">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7354904152560337"
+            crossorigin="anonymous"></script>
+        <!-- AdSense -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-7354904152560337"
+            data-ad-slot="2406265932"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <div class="container">
+        <h2>Enter Group Players</h2>
+
+        <div>
+            <label for="group1Name">Team 1 Players:</label>
+            <input type="text" id="group1Name" value="Team 1">
+            <textarea id="group1players" rows="5" placeholder="Enter players (one per line)"></textarea>
+        </div>
+
+        <div>
+            <label for="group2Name">Team 2 Players:</label>
+            <input type="text" id="group2Name" value="Team 2">
+            <textarea id="group2players" rows="5" placeholder="Enter players (one per line)"></textarea>
+        </div>
+
+        <button onclick="generateTeams()">Generate Teams</button>
+
+        <div id="results" style="display: none;">
+            <h3>Generated Teams</h3>
+            <div id="teamsContainer">
+            </div>
+        </div>
+    </div>
+
+    <div class="ad-container right-ad">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7354904152560337"
+            crossorigin="anonymous"></script>
+        <!-- AdSense -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-7354904152560337"
+            data-ad-slot="2406265932"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <script>
+        function generateTeams() {
+            const group1playersText = document.getElementById("group1players").value;
+            const group2playersText = document.getElementById("group2players").value;
+
+            const group1players = group1playersText.split('\n').map(member => member.trim()).filter(member => member !== '');
+            const group2players = group2playersText.split('\n').map(member => member.trim()).filter(member => member !== '');
+
+            const allplayers = [
+                ...group1players.map(member => ({ name: member, group: document.getElementById("group1Name").value })),
+                ...group2players.map(member => ({ name: member, group: document.getElementById("group2Name").value }))
+            ];
+
+            const numTeams = 20;
+            const playersPerTeam = 11;
+
+            const teams = [];
+
+            for (let i = 0; i < numTeams; i++) {
+                const teamMembers = [];
+                const availablePlayers = [...allplayers].sort(() => Math.random() - 0.5);
+                const selectedPlayers = new Set();
+
+                for (const player of availablePlayers) {
+                    if (!selectedPlayers.has(player.name)) {
+                        teamMembers.push(player);
+                        selectedPlayers.add(player.name);
+                        if (teamMembers.length === playersPerTeam) {
+                            break;
+                        }
+                    }
+                }
+                teams.push(teamMembers);
+            }
+
+            const teamsContainer = document.getElementById("teamsContainer");
+            teamsContainer.innerHTML = ''; // Clear previous results
+
+            teams.forEach((teamplayers, index) => {
+                const teamDiv = document.createElement('div');
+                teamDiv.classList.add('team');
+                teamDiv.innerHTML = `<h4>Team ${index + 1}</h4>`;
+
+                if (teamplayers.length > 0) {
+                    const playerList = teamplayers.map(m => `${m.name} (${m.group})`).join('\n');
+                    teamDiv.innerHTML += `<p><strong>Players:</strong><br>${playerList}</p>`;
+
+                    let captain = null;
+                    let viceCaptain = null;
+
+                    if (teamplayers.length > 0) {
+                        const availableForCaptain = [...teamplayers];
+                        const captainIndex = Math.floor(Math.random() * availableForCaptain.length);
+                        captain = availableForCaptain[captainIndex];
+                    }
+
+                    if (teamplayers.length > 1) {
+                        let availableForViceCaptain = [...teamplayers].filter(p => p.name !== captain.name);
+                        if (availableForViceCaptain.length > 0) {
+                            const viceCaptainIndex = Math.floor(Math.random() * availableForViceCaptain.length);
+                            viceCaptain = availableForViceCaptain[viceCaptainIndex];
+                        }
+                    }
+
+                    teamDiv.innerHTML += `<p><strong>Captain:</strong> ${captain ? captain.name : 'N/A'}</p>`;
+                    teamDiv.innerHTML += `<p><strong>Vice-Captain:</strong> ${viceCaptain ? viceCaptain.name : 'N/A'}</p>`;
+                } else {
+                    teamDiv.innerHTML += `<p>Error: Could not form a full team with unique players.</p>`;
+                }
+                teamsContainer.appendChild(teamDiv);
+            });
+
+            document.getElementById("results").style.display = "block";
+        }
+    </script>
+</body>
+</html>
