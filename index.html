@@ -1,231 +1,561 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Random Team Generator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream AI - Fantasy Sports Analytics</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7354904152560337"
-     crossorigin="anonymous"></script>
-     <meta name="google-adsense-account" content="ca-pub-7354904152560337">
+        crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-7354904152560337">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* General Styles */
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #444;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
-            justify-content: center; /* Center the main content */
-            align-items: flex-start;
+            flex-direction: column;
             min-height: 100vh;
         }
 
-        .ad-container {
-            width: 160px; /* Adjust width as needed */
-            margin: 20px;
-        }
-
-        .left-ad {
-            order: -1; /* Place on the left */
-        }
-
-        .right-ad {
-            order: 1; /* Place on the right */
+        .main-wrapper {
+            display: flex;
+            flex-grow: 1;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 20px;
         }
 
         .container {
             background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 800px;
-            margin: 20px; /* Add margin around the main container */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            width: 95%;
+            max-width: 1000px;
+            margin: 30px 0;
         }
 
-        @media (min-width: 960px) { /* Adjust breakpoint as needed */
-            body {
-                justify-content: space-around; /* Distribute space for ads */
-            }
-
-            .container {
-                width: auto;
-                max-width: 800px;
-                margin: 20px 0; /* Adjust vertical margin */
-            }
-        }
-
-        h2 {
-            color: #2c3e50;
+        /* Header Styles */
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 25px 0;
             text-align: center;
-            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: bold;
+        .header h1 {
+            margin: 0 0 5px 0;
+            font-size: 2.8em;
+            font-weight: 700;
         }
 
-        input[type="text"], textarea {
-            width: calc(100% - 20px);
-            padding: 10px;
+        .header p {
+            margin-top: 0;
+            font-size: 1.2em;
+            font-style: italic;
+            color: #e0f7fa;
+        }
+
+        /* Key Features Styles */
+        .key-features {
+            margin-bottom: 40px;
+            padding: 30px;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .key-features h3 {
+            color: #28a745;
+            text-align: left;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #d1d8e0;
+            padding-bottom: 12px;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .key-features p{
             margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
+            line-height: 1.7;
+            font-size: 1.1em;
+            color: #555;
         }
 
-        textarea {
+
+        /* Call to Action Styles */
+        .cta {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta a {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 18px 45px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.3em;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta a:hover {
+            background-color: #218838;
+            box-shadow: 0 4px 9px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .cta a:active {
+            background-color: #1e7e34;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+        }
+
+        /* Random Team Generator Styles */
+        h2 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #d1d8e0;
+            padding-bottom: 15px;
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .input-group input[type="text"],
+        .input-group textarea,
+        .input-group input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1.1em;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-group input[type="text"]:focus,
+        .input-group textarea:focus,
+        .input-group input[type="number"]:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .input-group textarea {
+            min-height: 120px;
             resize: vertical;
-            min-height: 80px;
         }
 
         button {
-            background-color: #3498db;
+            background-color: #007bff;
             color: white;
-            padding: 12px 25px;
+            padding: 15px 30px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 1.1em;
             transition: background-color 0.3s ease;
             display: block;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
         }
 
         button:hover {
-            background-color: #2980b9;
+            background-color: #0056b3;
         }
 
         #results {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #ecf0f1;
-            border-radius: 8px;
-            border: 1px solid #dcdcdc;
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            position: relative;
+            display: none;
         }
 
         #results h3 {
-            color: #27ae60;
-            margin-top: 0;
+            color: #007bff;
             text-align: center;
-            margin-bottom: 20px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #d1d8e0;
+            padding-bottom: 12px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        #clearResults {
+            background-color: #dc3545;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 200px;
+            text-align: center;
+        }
+
+        #clearResults:hover {
+            background-color: #c82333;
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        #clearResults:active {
+            background-color: #b11d2d;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+        }
+
+        #teamsContainer {
+            margin-top: 30px;
         }
 
         .team {
             background-color: #fff;
             border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 15px;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .team:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .team h4 {
             color: #34495e;
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
+            font-size: 1.25em;
+            font-weight: 600;
         }
 
         .team p {
-            margin-bottom: 8px;
-            color: #555;
+            margin-bottom: 12px;
+            color: #666;
             white-space: pre-line;
+            font-size: 1em;
+            line-height: 1.7;
         }
 
         .team strong {
-            font-weight: bold;
+            font-weight: 600;
             color: #2c3e50;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.95em;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer p {
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .footer a:hover {
+            color: #b0bec5;
+        }
+
+        .ad-container {
+            width: 200px;
+            margin: 20px;
+        }
+
+        @media (min-width: 992px) {
+            .main-wrapper {
+                justify-content: space-around;
+            }
+
+            .container {
+                margin: 30px 0;
+                max-width: 800px;
+            }
+
+            .left-ad {
+                order: -1;
+            }
+
+            .right-ad {
+                order: 1;
+            }
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+                width: 100%;
+                margin: 15px 0;
+            }
+
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .key-features h3 {
+                font-size: 1.2em;
+            }
+
+            .key-features ul li {
+                font-size: 1em;
+                padding-left: 30px;
+            }
+
+            .cta a {
+                font-size: 1.1em;
+                padding: 15px 30px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .input-group label {
+                font-size: 1em;
+            }
+
+            .input-group input[type="text"],
+            .input-group textarea,
+            .input-group input[type="number"] {
+                font-size: 1em;
+                padding: 10px;
+            }
+
+            button {
+                font-size: 1em;
+                padding: 12px 25px;
+            }
+
+            .team h4 {
+                font-size: 1.1em;
+            }
+            .team p{
+                font-size: 0.9em;
+                line-height: 1.5;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="ad-container left-ad">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7354904152560337"
-            crossorigin="anonymous"></script>
-        <!-- AdSense -->
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-7354904152560337"
-            data-ad-slot="2406265932"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+    <header class="header">
+        <h1>Dream AI</h1>
+        <p>AI-Powered Fantasy Sports Analytics</p>
+    </header>
 
-    <div class="container">
-        <h2>Enter Group Players</h2>
-
-        <div>
-            <label for="group1Name">Team 1 Players:</label>
-            <input type="text" id="group1Name" value="Team 1">
-            <textarea id="group1players" rows="5" placeholder="Enter players (one per line)" Text="">
-                Travis Head 
-                Abhishek Sharma
-                Ishan Kishan
-                Nitish Kumar Reddy
-                Heinrich Klaasen
-                Aniket Verma
-                Abhinav Manohar
-                Pat Cummins
-                Simranjeet Singh
-                Harshal Patel
-                Mohammed Shami
-            </textarea>
+    <div class="main-wrapper">
+        <div class="ad-container left-ad">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7354904152560337"
+                crossorigin="anonymous"></script>
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-7354904152560337"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
 
-        <div>
-            <label for="group2Name">Team 2 Players:</label>
-            <input type="text" id="group2Name" value="Team 2">
-            <textarea id="group2players" rows="5" placeholder="Enter players (one per line)">
-                Mitchell Marsh
-                Aiden Markram
-                Nicholas Pooran
-                Rishabh Pant
-                Ayush Badoni
-                David Miller
-                Prince Yadav
-                Digvesh Rathi
-                Shahbaz Ahmed
-                Shardul Thakur
-                Ravi Bishnoi
-            </textarea>
-        </div>
+        <div class="container">
+            <div class="key-features">
+                <h3>Key Features</h3>
+                <p>
+                    Dream AI is a cutting-edge platform designed to provide you with an unparalleled edge in fantasy sports.  We leverage the power of artificial intelligence to deliver in-depth analysis, personalized recommendations, and real-time updates, empowering you to make smarter decisions and dominate your leagues.
+                </p>
+                <p>
+                    Our platform goes beyond basic statistics, offering advanced analytics that delve into player performance, team dynamics, and match-up analysis.  We provide you with actionable insights, helping you identify hidden opportunities and avoid potential pitfalls.
+                </p>
+                <p>
+                   With Dream AI, you'll receive customized recommendations tailored to your specific league settings, team composition, and strategic goals.  Stay ahead of the competition with our real-time updates on player news, injuries, and lineup changes.  Our user-friendly interface ensures that you can easily access the information you need and manage your teams with maximum efficiency.
+                </p>
+            </div>
 
-        <button onclick="generateTeams()">Generate Teams</button>
+            <div class="cta">
+                <a href="#team-input">Get Started with Dream AI Today!</a>
+            </div>
 
-        <div id="results" style="display: none;">
-            <h3>Generated Teams</h3>
-            <div id="teamsContainer">
+            <h2 id="team-input">Generate Random Teams</h2>
+            <p>Use this tool to quickly generate random teams from a provided list of players. This can be useful for friendly matches, practice drafts, or just for fun!</p>
+
+            <div class="input-group">
+                <label for="numTeams">Number of Teams:</label>
+                <input type="number" id="numTeams" value="20" min="1">
+            </div>
+
+            <div class="input-group">
+                <label for="group1Name">Roster for Team 1:</label>
+                <input type="text" id="group1Name" value="Team 1">
+                <textarea id="group1players" rows="5" placeholder="Enter players (one per line)">
+Travis Head
+Abhishek Sharma
+Ishan Kishan
+Nitish Kumar Reddy
+Heinrich Klaasen
+Aniket Verma
+Abhinav Manohar
+Pat Cummins
+Simranjeet Singh
+Harshal Patel
+Mohammed Shami</textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="group2Name">Roster for Team 2:</label>
+                <input type="text" id="group2Name" value="Team 2">
+                <textarea id="group2players" rows="5" placeholder="Enter players (one per line)">
+Mitchell Marsh
+Aiden Markram
+Nicholas Pooran
+Rishabh Pant
+Ayush Badoni
+David Miller
+Prince Yadav
+Digvesh Rathi
+Shahbaz Ahmed
+Shardul Thakur
+Ravi Bishnoi</textarea>
+            </div>
+
+            <button onclick="generateTeams()">Generate Teams</button>
+
+
+            <div id="results" style="display: none;">
+                <h3>Generated Teams</h3>
+                <button id="clearResults" onclick="clearTeams()">Clear Teams</button>
+                <div id="teamsContainer">
+                </div>
+            </div>
+
+             <div class="additional-content">
+                <h4>About Dream AI</h4>
+                <p>
+                    Dream AI is a cutting-edge fantasy sports analytics platform designed to give you the edge in your fantasy leagues.
+                    Our AI-powered tools provide in-depth analysis, personalized recommendations, and real-time updates to help you make
+                    smarter decisions and dominate your competition.  We support a variety of sports, including cricket, football,
+                    basketball, and more.  Whether you're a seasoned pro or new to fantasy sports, Dream AI has the tools you need to succeed.
+                </p>
+
+                <h5>Key Features and Benefits:</h5>
+                 <ul>
+                    <li><strong>Advanced Analytics:</strong> Our platform uses state-of-the-art AI algorithms to analyze player performance data,
+                        team statistics, and match-up information to provide you with the most accurate and insightful analysis available.</li>
+                    <li><strong>Personalized Recommendations:</strong>  Dream AI doesn't just give you raw data; it provides personalized
+                        recommendations tailored to your specific league, team, and goals.</li>
+                    <li><strong>Real-Time Updates:</strong>  Stay ahead of the game with real-time updates on player news, injuries, and
+                        lineup changes.  Our platform keeps you informed so you can make timely decisions and maximize your team's potential.</li>
+                    <li><strong>User-Friendly Interface:</strong>  We believe that powerful tools should be easy to use.  Our intuitive
+                        interface makes it simple to navigate the platform, access the information you need, and manage your teams effectively.</li>
+                    <li><strong>Customizable Tools:</strong>   tailor the platform to your specific needs.  Customize your team generation
+                        parameters,  and export data to your preferred format.</li>
+                </ul>
+
+                <h5>Success Stories</h5>
+                <p>
+                    Here are just a few examples of how Dream AI has helped our users achieve success:
+                </p>
+                <ul>
+                    <li>John, a long-time fantasy cricket player, used Dream AI to win his league's grand prize for the first time.</li>
+                    <li>Sarah, a newcomer to fantasy football, quickly rose through the ranks and became one of the top-ranked players
+                        in her league with the help of Dream AI.</li>
+                    <li>David, a busy professional, appreciates how Dream AI saves him time by providing him with the key insights he needs
+                        to make informed decisions quickly.</li>
+                </ul>
+
+                 <h5>Our Commitment to You</h5>
+                <p>
+                    At Dream AI, we're committed to providing our users with the best possible experience.  We're constantly working to
+                    improve our platform, add new features, and enhance our AI algorithms.  Our dedicated support team is always available
+                    to answer your questions and help you get the most out of Dream AI.
+                </p>
             </div>
         </div>
+
+        <div class="ad-container right-ad">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7354904152560337"
+                crossorigin="anonymous"></script>
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-7354904152560337"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
     </div>
 
-    <div class="ad-container right-ad">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7354904152560337"
-            crossorigin="anonymous"></script>
-        <!-- AdSense -->
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-7354904152560337"
-            data-ad-slot="2406265932"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+    <footer class="footer">
+        <p>&copy; 2025 Dream AI. All rights reserved.</p>
+        <p><a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: white; text-decoration: none;">Terms of Service</a></p>
+    </footer>
 
     <script>
         function generateTeams() {
             const group1playersText = document.getElementById("group1players").value;
             const group2playersText = document.getElementById("group2players").value;
+            const numTeamsInput = document.getElementById("numTeams").value;
+            const numTeams = parseInt(numTeamsInput);
+
+            if (isNaN(numTeams) || numTeams <= 0) {
+                alert("Please enter a valid number of teams.");
+                return;
+            }
+
 
             const group1players = group1playersText.split('\n').map(member => member.trim()).filter(member => member !== '');
             const group2players = group2playersText.split('\n').map(member => member.trim()).filter(member => member !== '');
@@ -235,7 +565,7 @@
                 ...group2players.map(member => ({ name: member, group: document.getElementById("group2Name").value }))
             ];
 
-            const numTeams = 20;
+            //const numTeams = 20;  // Removed hardcoded value
             const playersPerTeam = 11;
 
             const teams = [];
@@ -295,6 +625,13 @@
             });
 
             document.getElementById("results").style.display = "block";
+            document.getElementById("clearResults").style.display = "block"; // Show clear button
+        }
+
+        function clearTeams() {
+            document.getElementById("teamsContainer").innerHTML = ''; // Clear the displayed te
+            document.getElementById("results").style.display = "none"; // Hide the results section
+            document.getElementById("clearResults").style.display = "none"; // Hide clear button
         }
     </script>
 </body>
