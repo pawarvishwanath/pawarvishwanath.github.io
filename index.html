@@ -308,8 +308,9 @@
         }
 
         .ad-container {
-            width: 200px;
-            margin: 20px;
+            width: 100%;
+            margin: 20px 0;
+            text-align: center; /* Center ads on mobile */
         }
 
         @media (min-width: 992px) {
@@ -324,10 +325,15 @@
 
             .left-ad {
                 order: -1;
+                margin-right: 20px; /* Add spacing between ads and content on wider screens */
             }
 
             .right-ad {
                 order: 1;
+                margin-left: 20px;  /* Add spacing between ads and content on wider screens */
+            }
+            .ad-container {
+                width: 200px; /* Restore fixed width for ads on wider screens */
             }
         }
 
@@ -351,9 +357,9 @@
                 font-size: 1.2em;
             }
 
-            .key-features ul li {
+            .key-features p {
                 font-size: 1em;
-                padding-left: 30px;
+                padding-left: 0; /* Remove left padding on mobile */
             }
 
             .cta a {
@@ -387,6 +393,48 @@
             .team p{
                 font-size: 0.9em;
                 line-height: 1.5;
+            }
+            .input-group {
+                margin-bottom: 20px; /* Reduced margin for input groups on mobile */
+            }
+            .cta {
+                margin-top: 30px; /* Reduced margin for CTA on mobile */
+            }
+            .header {
+                padding: 20px 0; /* Reduced padding for header on mobile */
+            }
+        }
+
+        /* Further adjustments for very small screens (e.g., iPhone) */
+        @media (max-width: 375px) {
+            .header h1 {
+                font-size: 2em; /* Further reduce header font size on very small screens */
+            }
+            .header p {
+                font-size: 0.9em; /* Reduce paragraph font size even more */
+            }
+            .container {
+                padding: 20px; /* Reduce container padding on very small screens */
+            }
+            .cta a {
+                font-size: 1em;
+                padding: 12px 25px;
+            }
+            .input-group input[type="text"],
+            .input-group textarea,
+            .input-group input[type="number"] {
+                font-size: 0.9em; /* Reduce input font size */
+            }
+            button {
+                font-size: 0.9em;
+                padding: 10px 20px;
+            }
+            .team h4{
+                font-size: 1em;
+            }
+            .team p {
+                font-size: 0.85em;
+                line-height: 1.4;
             }
         }
     </style>
@@ -593,46 +641,4 @@ Ravi Bishnoi</textarea>
             teams.forEach((teamplayers, index) => {
                 const teamDiv = document.createElement('div');
                 teamDiv.classList.add('team');
-                teamDiv.innerHTML = `<h4>Team ${index + 1}</h4>`;
-
-                if (teamplayers.length > 0) {
-                    const playerList = teamplayers.map(m => `${m.name} (${m.group})`).join('\n');
-                    teamDiv.innerHTML += `<p><strong>Players:</strong><br>${playerList}</p>`;
-
-                    let captain = null;
-                    let viceCaptain = null;
-
-                    if (teamplayers.length > 0) {
-                        const availableForCaptain = [...teamplayers];
-                        const captainIndex = Math.floor(Math.random() * availableForCaptain.length);
-                        captain = availableForCaptain[captainIndex];
-                    }
-
-                    if (teamplayers.length > 1) {
-                        let availableForViceCaptain = [...teamplayers].filter(p => p.name !== captain.name);
-                        if (availableForViceCaptain.length > 0) {
-                            const viceCaptainIndex = Math.floor(Math.random() * availableForViceCaptain.length);
-                            viceCaptain = availableForViceCaptain[viceCaptainIndex];
-                        }
-                    }
-
-                    teamDiv.innerHTML += `<p><strong>Captain:</strong> ${captain ? captain.name : 'N/A'}</p>`;
-                    teamDiv.innerHTML += `<p><strong>Vice-Captain:</strong> ${viceCaptain ? viceCaptain.name : 'N/A'}</p>`;
-                } else {
-                    teamDiv.innerHTML += `<p>Error: Could not form a full team with unique players.</p>`;
-                }
-                teamsContainer.appendChild(teamDiv);
-            });
-
-            document.getElementById("results").style.display = "block";
-            document.getElementById("clearResults").style.display = "block"; // Show clear button
-        }
-
-        function clearTeams() {
-            document.getElementById("teamsContainer").innerHTML = ''; // Clear the displayed te
-            document.getElementById("results").style.display = "none"; // Hide the results section
-            document.getElementById("clearResults").style.display = "none"; // Hide clear button
-        }
-    </script>
-</body>
-</html>
+                teamDiv.innerHTML = `<h4>Team ${inde
