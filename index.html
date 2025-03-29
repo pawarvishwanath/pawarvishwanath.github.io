@@ -395,55 +395,53 @@
         <h1>Dream AI</h1>
         <p>AI-Powered Generate Random Teams</p>
     </header>
-
     <div class="main-wrapper">
         <div class="container">
             <h2 id="team-input">Generate Random Teams</h2>
             <p>Use this tool to quickly generate random teams from a provided list of players. This can be useful for friendly matches, practice drafts, or just for fun!</p>
 
             <div class="input-group">
+                <label for="group1Name">Roster for Team 1:</label>
+                <input type="text" id="team1name" value="GT">
+                <textarea id="group1players" rows="5" placeholder="Enter players (one per line)">
+Shubman Gill
+Sai Sudharsan 
+Jos Buttler
+Sherfane Rutherford
+Shahrukh Khan
+Rahul Tewatia
+Rashid Khan
+Kagiso Rabada
+R Sai Kishore
+Kagiso Rabada
+Mohammed Siraj</textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="team2name">Roster for Team 2:</label>
+                <input type="text" id="team2name" value="MI">
+                <textarea id="group2players" rows="5" placeholder="Enter players (one per line)">
+Rohit Sharma 
+Ryan Rickelton
+Will Jacks
+Suryakumar Yadav 
+Tilak Varma
+Hardik Pandya
+Naman Dhir
+Deepak Chahar
+Mitchell Santner
+Trent Boult
+Satyanarayana Raju</textarea>
+            </div>
+            <div class="input-group">
                 <label for="numTeams">Number of Teams:</label>
                 <input type="number" id="numTeams" value="2" min="1">
-            </div>
-
-            <div class="input-group">
-                <label for="group1Name">Roster for Team 1:</label>
-                <input type="text" id="group1Name" value="Team 1">
-                <textarea id="group1players" rows="5" placeholder="Enter players (one per line)">
-Travis Head
-Abhishek Sharma
-Ishan Kishan
-Nitish Kumar Reddy
-Heinrich Klaasen
-Aniket Verma
-Abhinav Manohar
-Pat Cummins
-Simranjeet Singh
-Harshal Patel
-Mohammed Shami</textarea>
-            </div>
-
-            <div class="input-group">
-                <label for="group2Name">Roster for Team 2:</label>
-                <input type="text" id="group2Name" value="Team 2">
-                <textarea id="group2players" rows="5" placeholder="Enter players (one per line)">
-Mitchell Marsh
-Aiden Markram
-Nicholas Pooran
-Rishabh Pant
-Ayush Badoni
-David Miller
-Prince Yadav
-Digvesh Rathi
-Shahbaz Ahmed
-Shardul Thakur
-Ravi Bishnoi</textarea>
             </div>
 
             <button onclick="generateTeams()">Generate Teams</button>
 
 
-            <div id="results" style="display: none;">
+            <div id="results">
                 <h3>Generated Teams</h3>
                 <button id="clearResults" onclick="clearTeams()">Clear Teams</button>
                 <div id="teamsContainer">
@@ -500,101 +498,54 @@ Ravi Bishnoi</textarea>
         <p><a href="#" style="color: white; text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: white; text-decoration: none;">Terms of Service</a></p>
     </footer>
 
+
     <script>
         function generateTeams() {
-            const group1playersText = document.getElementById("group1players").value;
-            const group2playersText = document.getElementById("group2players").value;
-            const numTeamsInput = document.getElementById("numTeams").value;
-            const numTeams = parseInt(numTeamsInput);
+            const numTeams = parseInt(document.getElementById('numTeams').value);
+            const team1Name = document.getElementById('team1name').value.trim() || "Team 1";
+            const team2Name = document.getElementById('team2name').value.trim() || "Team 2";
+            const team1Players = document.getElementById('group1players').value.trim().split("\n").filter(p => p);
+            const team2Players = document.getElementById('group2players').value.trim().split("\n").filter(p => p);
+            const allPlayers = [...team1Players, ...team2Players];
 
-            if (isNaN(numTeams) || numTeams <= 0) {
-                alert("Please enter a valid number of teams.");
+            if (allPlayers.length < 11) {
+                alert("Not enough players to form a team.");
                 return;
             }
 
-
-            const group1players = group1playersText.split('\n').map(member => member.trim()).filter(member => member !== '');
-            const group2players = group2playersText.split('\n').map(member => member.trim()).filter(member => member !== '');
-
-            const allplayers = [
-                ...group1players.map(member => ({ name: member, group: document.getElementById("group1Name").value })),
-                ...group2players.map(member => ({ name: member, group: document.getElementById("group2Name").value }))
-            ];
-
-            //const numTeams = 20;  // Removed hardcoded value
-            const playersPerTeam = Math.floor(allplayers.length / numTeams);
-            const remainingPlayers = allplayers.length % numTeams;
-
-
-            const teams = [];
+            let teamsContainer = document.getElementById("teamsContainer");
+            teamsContainer.innerHTML = "";
 
             for (let i = 0; i < numTeams; i++) {
-                const teamMembers = [];
-                teams.push(teamMembers);
-            }
+                let selectedPlayers = new Set();
 
-             // Shuffle the players
-            const shuffledPlayers = [...allplayers].sort(() => Math.random() - 0.5);
-
-            // Distribute players evenly
-            let playerIndex = 0;
-            for (let i = 0; i < numTeams; i++) {
-                for (let j = 0; j < playersPerTeam; j++) {
-                    if (playerIndex < shuffledPlayers.length) {
-                        teams[i].push(shuffledPlayers[playerIndex++]);
-                    }
+                while (selectedPlayers.size < 11) {
+                    let randomPlayer = allPlayers[Math.floor(Math.random() * allPlayers.length)];
+                    selectedPlayers.add(randomPlayer);
                 }
-            }
 
-            // Distribute remaining players
-            for (let i = 0; i < remainingPlayers; i++) {
-                if (playerIndex < shuffledPlayers.length) {
-                    teams[i].push(shuffledPlayers[playerIndex++]);
-                }
-            }
+                let selectedArray = [...selectedPlayers];
+                let captain = selectedArray[0];  
+                let viceCaptain = selectedArray[1];  
 
+                let formattedPlayers = selectedArray.map(player => {
+                    let teamName = team1Players.includes(player) ? team1Name : team2Name;
+                    return `${player} (${teamName})`;
+                }).join("<br>");
 
-            const teamsContainer = document.getElementById("teamsContainer");
-            teamsContainer.innerHTML = ''; // Clear previous results
-
-            teams.forEach((teamPlayers, index) => {
-                const teamDiv = document.createElement('div');
-                teamDiv.classList.add('team');
-                teamDiv.innerHTML = `<h4>Team ${index + 1}</h4>`;
-
-                if (teamPlayers.length > 0) {
-                    const playerList = teamPlayers.map(m => `${m.name} (${m.group})`).join('\n');
-                    teamDiv.innerHTML += `<p><strong>Players:</strong><br>${playerList}</p>`;
-
-                    let captain = null;
-                    let viceCaptain = null;
-
-                    if (teamPlayers.length > 0) {
-                        const availableForCaptain = [...teamPlayers];
-                        const captainIndex = Math.floor(Math.random() * availableForCaptain.length);
-                        captain = availableForCaptain[captainIndex];
-                    }
-
-                    if (teamPlayers.length > 1) {
-                        let availableForViceCaptain = [...teamPlayers].filter(p => p.name !== captain.name);
-                         if (availableForViceCaptain.length > 0) {
-                            const viceCaptainIndex = Math.floor(Math.random() * availableForViceCaptain.length);
-                            viceCaptain = availableForViceCaptain[viceCaptainIndex];
-                        }
-                    }
-
-                    teamDiv.innerHTML += `<p><strong>Captain:</strong> ${captain ? captain.name : 'N/A'}</p>`;
-                    teamDiv.innerHTML += `<p><strong>Vice-Captain:</strong> ${viceCaptain ? viceCaptain.name : 'N/A'}</p>`;
-                } else {
-                    teamDiv.innerHTML += `<p>Error: Could not form a full team with unique players.</p>`;
-                }
+                let teamDiv = document.createElement("div");
+                teamDiv.classList.add("team");
+                teamDiv.innerHTML = `
+                    <h3>Team ${i + 1}</h3>
+                    ${formattedPlayers}
+                    <p><span class="highlight">Captain (C):</span> ${captain} (${team1Players.includes(captain) ? team1Name : team2Name})</p>
+                    <p><span class="highlight">Vice-Captain (VC):</span> ${viceCaptain} (${team1Players.includes(viceCaptain) ? team1Name : team2Name})</p>
+                `;
                 teamsContainer.appendChild(teamDiv);
-            });
-
+            }
             document.getElementById("results").style.display = "block";
             document.getElementById("clearResults").style.display = "block"; // Show clear button
         }
-
         function clearTeams() {
             document.getElementById("teamsContainer").innerHTML = ''; // Clear the displayed te
             document.getElementById("results").style.display = "none"; // Hide the results section
